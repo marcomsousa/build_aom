@@ -35,7 +35,7 @@ init:
 - appveyor DownloadFile %YASM_URL% -FileName C:\yasm\yasm.exe
 - ps: if ((Get-FileHash C:\yasm\yasm.exe -Algorithm SHA256).Hash.ToLower() -ne $env:YASM_SHA256) { Throw "Yasm hash mismatch" }
 - set PATH=C:\yasm;%PATH%
-- git clone --depth 1 -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
+- git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
 
 before_build:
 - cmd: |-
