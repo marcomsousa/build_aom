@@ -51,8 +51,9 @@ build:
   parallel: true
 
 after_build:
-- 7z a aom_msvc19_win64.zip %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\*
-- appveyor PushArtifact aom_msvc19_win64.zip
+- cd %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\
+- appveyor PushArtifact aomenc.exe
+- appveyor PushArtifact aomdec.exe
 
 on_finish:
 - cd %APPVEYOR_BUILD_FOLDER%
