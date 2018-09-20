@@ -38,7 +38,7 @@ init:
 - set PATH=C:\yasm;%PATH%
 - git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
 - ps: $env:gitCount = ConvertFrom-StringData (c:\projects\aom_src && git rev-list $env:AOM_LAST_TAG.. --count | out-string)
-- echo %gitCount%
+- echo "%gitCount%"
 - appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 
 before_build:
