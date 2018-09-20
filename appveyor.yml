@@ -46,7 +46,7 @@ before_build:
     dir
 
 build:
-  project: c:\projects\aom\cmake_build\AOM.sln
+  project: C:\projects\build-aom\cmake_build\AOM.sln
   verbosity: minimal
   parallel: true
 
