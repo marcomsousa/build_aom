@@ -39,29 +39,29 @@ init:
 
 before_build:
 - cmd: |-
-    mkdir ci_build
-    cd ci_build
+    mkdir cmake_build
+    cd cmake_build
     cmake --version
     cmake c:\projects\aom_src -DENABLE_TESTS=0 -DENABLE_DOCS=0 -G %generator%
     dir
 
 build:
-  project: c:\projects\aom\ci_build\AOM.sln
+  project: c:\projects\aom\cmake_build\AOM.sln
   verbosity: minimal
   parallel: true
 
 after_build:
-- 7z a aom_win64.zip %APPVEYOR_BUILD_FOLDER%\ci_build\Release\*
+- 7z a aom_win64.zip %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\*
 
 artifacts:
-- path: c:\projects\aom\ci_build\ci_build\Release
+- path: cmake_build\aom_win64.zip
   name: aom_win64
   type: zip
 
 on_finish:
 - cd %APPVEYOR_BUILD_FOLDER%
 - dir
-- cd ci_build
+- cd cmake_build
 - dir
 - cd Release
 - dir
