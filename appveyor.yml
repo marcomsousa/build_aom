@@ -37,6 +37,9 @@ init:
 - ps: if ((Get-FileHash C:\yasm\yasm.exe -Algorithm SHA256).Hash.ToLower() -ne $env:YASM_SHA256) { Throw "Yasm hash mismatch" }
 - set PATH=C:\yasm;%PATH%
 - git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
+- ps: $env:gitCount = ConvertFrom-StringData (git rev-list $env:AOM_LAST_TAG.. --count | out-string)
+- echo %gitCount%
+- appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 
 before_build:
 - cmd: |-
@@ -53,8 +56,9 @@ build:
 
 after_build:
 - cd c:\projects\aom_src
-- echo %AOM_LAST_TAG%-> %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
+- echo|set /p="%AOM_LAST_TAG%-" > %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
 - git rev-list %AOM_LAST_TAG%.. --count >> %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
+- echo|set /p="-"
 - git rev-list --max-count=1 --all >> %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
 - cd %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\
 - appveyor PushArtifact aomenc.exe
