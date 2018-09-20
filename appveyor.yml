@@ -51,9 +51,14 @@ build:
   parallel: true
 
 after_build:
+- cd c:\projects\aom_src
+- git rev-list v1.0.0.. --count > %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
+- echo - >> %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
+- git rev-list --max-count=1 --all >> %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
 - cd %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\
 - appveyor PushArtifact aomenc.exe
 - appveyor PushArtifact aomdec.exe
+- appveyor PushArtifact VERSION.TXT
 
 on_finish:
 - cd %APPVEYOR_BUILD_FOLDER%
