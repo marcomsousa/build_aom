@@ -51,11 +51,11 @@ build:
   parallel: true
 
 after_build:
-- 7z a aom_win64.zip %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\*
+- 7z a aom_msvc19_win64.zip %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\*
 
 artifacts:
-- path: cmake_build\aom_win64.zip
-  name: aom_win64
+- path: cmake_build\aom_msvc19_win64.zip
+  name: aom_msvc19_win64
   type: zip
 
 on_finish:
