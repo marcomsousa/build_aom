@@ -1,0 +1,67 @@
+environment:
+  YASM_URL: "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe"
+  YASM_SHA256: "d160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f"
+  matrix:
+  - arch: Win64
+
+
+image: Visual Studio 2017
+
+branches:
+  only:
+  - master
+skip_tags: true
+clone_depth: 1
+
+configuration:
+- Release
+
+platform:
+- x64
+
+matrix:
+  fast_finish: true
+
+# skip unsupported combinations
+init:
+- set arch=
+- if "%arch%"=="Win64" ( set arch= Win64)
+- echo %arch%
+- echo %APPVEYOR_BUILD_WORKER_IMAGE%
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
+- echo %generator%
+# Install yasm
+- mkdir C:\yasm
+- appveyor DownloadFile %YASM_URL% -FileName C:\yasm\yasm.exe
+- ps: if ((Get-FileHash C:\yasm\yasm.exe -Algorithm SHA256).Hash.ToLower() -ne $env:YASM_SHA256) { Throw "Yasm hash mismatch" }
+- set PATH=C:\yasm;%PATH%
+- git clone --depth 1 -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
+
+before_build:
+- cmd: |-
+    mkdir ci_build
+    cd ci_build
+    cmake --version
+    cmake c:\projects\aom_src -DENABLE_TESTS=0 -DENABLE_DOCS=0 -G %generator%
+    dir
+
+build:
+  project: c:\projects\aom\ci_build\AOM.sln
+  verbosity: minimal
+  parallel: true
+
+after_build:
+- 7z a aom_win64.zip %APPVEYOR_BUILD_FOLDER%\ci_build\Release\*
+
+artifacts:
+- path: c:\projects\aom\ci_build\ci_build\Release
+  name: aom_win64
+  type: zip
+
+on_finish:
+- cd %APPVEYOR_BUILD_FOLDER%
+- dir
+- cd ci_build
+- dir
+- cd Release
+- dir
