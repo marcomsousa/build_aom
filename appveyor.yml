@@ -25,6 +25,12 @@ matrix:
 
 # skip unsupported combinations
 init:
+- git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
+- ps: |
+     cd c:\projects\aom_src
+     $env:gitCount = ConvertFrom-StringData (git rev-list $env:AOM_LAST_TAG.. --count | out-string)
+- echo "%gitCount%"
+- appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 - set arch=
 - if "%arch%"=="Win64" ( set arch= Win64)
 - echo %arch%
@@ -36,12 +42,6 @@ init:
 - appveyor DownloadFile %YASM_URL% -FileName C:\yasm\yasm.exe
 - ps: if ((Get-FileHash C:\yasm\yasm.exe -Algorithm SHA256).Hash.ToLower() -ne $env:YASM_SHA256) { Throw "Yasm hash mismatch" }
 - set PATH=C:\yasm;%PATH%
-- git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
-- ps: |
-     c:\projects\aom_src
-     $env:gitCount = ConvertFrom-StringData (git rev-list $env:AOM_LAST_TAG.. --count | out-string)
-- echo "%gitCount%"
-- appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 
 before_build:
 - cmd: |-
