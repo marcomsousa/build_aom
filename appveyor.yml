@@ -68,5 +68,4 @@ after_build:
 - cd %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\
 - appveyor PushArtifact aomenc.exe
 - appveyor PushArtifact aomdec.exe
-- appveyor PushArtifact VERSION.TXT
 - appveyor AddMessage "Finish upload" -Category Information
