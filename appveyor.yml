@@ -51,6 +51,7 @@ init:
 
 before_build:
 - cmd: |-
+    C:\projects\build-aom
     mkdir cmake_build
     cd cmake_build
     cmake --version
