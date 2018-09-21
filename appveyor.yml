@@ -32,7 +32,7 @@ init:
      if ($gitData['message'] -eq "") { $gitData['message'] = "No commit message available for $($gitData['commitid'])" }
      Update-AppveyorBuild @gitData
 - ps: |
-     $count = (& git rev-list $env:AOM_LAST_TAG.. --count).Trim()
+     $count = (& "git rev-list $env:AOM_LAST_TAG.. --count").Trim()
      $commit = (& git log -1 --format=format:"%H%").Trim()
      echo $env:AOM_LAST_TAG-$count-$commit
 - echo "%gitCount%
