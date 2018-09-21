@@ -5,7 +5,6 @@ environment:
   matrix:
   - arch: Win64
 
-
 image: Visual Studio 2017
 
 branches:
@@ -39,9 +38,6 @@ init:
      Update-AppveyorBuild -Version $version
      $version >> ".\VERSION.txt"
      Push-AppveyorArtifact VERSION.txt
-
-
-
 - set arch=
 - if "%arch%"=="Win64" ( set arch= Win64)
 - echo %arch%
@@ -69,3 +65,8 @@ build:
 
 after_build:
 - appveyor AddMessage "Finish build" -Category Information
+- cd %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\
+- appveyor PushArtifact aomenc.exe
+- appveyor PushArtifact aomdec.exe
+- appveyor PushArtifact VERSION.TXT
+- appveyor AddMessage "Finish upload" -Category Information
