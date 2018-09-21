@@ -37,6 +37,11 @@ init:
      $version = "$env:AOM_LAST_TAG-$count-$commit"
      echo $version
      Update-AppveyorBuild -Version $version
+     $version >> ".\VERSION.txt"
+     Push-AppveyorArtifact VERSION.txt
+
+
+
 - set arch=
 - if "%arch%"=="Win64" ( set arch= Win64)
 - echo %arch%
@@ -56,7 +61,6 @@ before_build:
     cd cmake_build
     cmake --version
     cmake c:\projects\aom_src -DENABLE_TESTS=0 -DENABLE_DOCS=0 -G %generator%
-    dir
 
 build:
   project: C:\projects\build-aom\cmake_build\AOM.sln
@@ -64,20 +68,4 @@ build:
   parallel: true
 
 after_build:
-- cd c:\projects\aom_src
-- echo|set /p="%AOM_LAST_TAG%-" > %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
-- git rev-list %AOM_LAST_TAG%.. --count >> %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
-- echo|set /p="-"
-- git rev-list --max-count=1 --all >> %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\VERSION.TXT
-- cd %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\
-- appveyor PushArtifact aomenc.exe
-- appveyor PushArtifact aomdec.exe
-- appveyor PushArtifact VERSION.TXT
-
-on_finish:
-- cd %APPVEYOR_BUILD_FOLDER%
-- dir
-- cd cmake_build
-- dir
-- cd Release
-- dir
+- appveyor AddMessage "Finish build" -Category Information
