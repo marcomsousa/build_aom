@@ -56,7 +56,7 @@ before_build:
     mkdir cmake_build
     cd cmake_build
     cmake --version
-    cmake c:\projects\aom_src -DENABLE_TESTS=0 -DENABLE_DOCS=0 -G %generator%
+    cmake c:\projects\aom_src -DENABLE_TESTS=0 -DENABLE_DOCS=0 -DCONFIG_LOWBITDEPTH=1 -G %generator%
 
 build:
   project: C:\projects\build-aom\cmake_build\AOM.sln
