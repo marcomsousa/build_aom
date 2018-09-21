@@ -34,7 +34,9 @@ init:
 - ps: |
      $count = (& git rev-list "$env:AOM_LAST_TAG.." --count).Trim()
      $commit = (& git log -1 --format=format:"%H%").Trim()
-     echo $env:AOM_LAST_TAG-$count-$commit
+     $version = $env:AOM_LAST_TAG-$count-$commit
+     echo $version
+     Update-AppveyorBuild -Version $version
 - echo "%gitCount%
 - appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 - set arch=
