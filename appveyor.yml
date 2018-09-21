@@ -28,8 +28,13 @@ init:
 - git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
 - ps: |
      cd c:\projects\aom_src
-     $count = (& git rev-list v1.0.0.. --count).Trim()
-     $gitCount = ConvertFrom-StringData (git rev-list v1.0.0.. --count | out-string)
+     $gitData = ConvertFrom-StringData (git log -1 --format=format:"commitId=%H%nmessage=%s%ncommitted=%aD" | out-string)
+     if ($gitData['message'] -eq "") { $gitData['message'] = "No commit message available for $($gitData['commitid'])" }
+     Update-AppveyorBuild @gitData
+- ps: |
+     $count = (& git rev-list $env:AOM_LAST_TAG.. --count).Trim()
+     $commit = (& git log -1 --format=format:"%H%").Trim()
+     echo $env:AOM_LAST_TAG-$count-$commit
 - echo "%gitCount%
 - appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 - set arch=
