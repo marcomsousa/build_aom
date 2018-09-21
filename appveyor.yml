@@ -28,7 +28,7 @@ init:
 - git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
 - ps: |
      cd c:\projects\aom_src
-     $env:gitCount = ConvertFrom-StringData (git rev-list v1.0.0.. --count | out-string)
+     $env:gitCount = ConvertFrom-StringData(git rev-list v1.0.0.. --count)
 - echo "%gitCount%
 - appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 - set arch=
