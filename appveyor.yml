@@ -37,8 +37,6 @@ init:
      $version = $env:AOM_LAST_TAG-$count-$commit
      echo $version
      Update-AppveyorBuild -Version $version
-- echo "%gitCount%
-- appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 - set arch=
 - if "%arch%"=="Win64" ( set arch= Win64)
 - echo %arch%
