@@ -37,7 +37,9 @@ init:
 - ps: if ((Get-FileHash C:\yasm\yasm.exe -Algorithm SHA256).Hash.ToLower() -ne $env:YASM_SHA256) { Throw "Yasm hash mismatch" }
 - set PATH=C:\yasm;%PATH%
 - git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
-- ps: $env:gitCount = ConvertFrom-StringData (c:\projects\aom_src && git rev-list $env:AOM_LAST_TAG.. --count | out-string)
+- ps: |
+     c:\projects\aom_src
+     $env:gitCount = ConvertFrom-StringData (git rev-list $env:AOM_LAST_TAG.. --count | out-string)
 - echo "%gitCount%"
 - appveyor UpdateBuild -Version "%AOM_LAST_TAG%-%gitCount%"
 
