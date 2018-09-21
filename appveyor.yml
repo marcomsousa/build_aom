@@ -28,7 +28,7 @@ init:
 - git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
 - ps: |
      cd c:\projects\aom_src
-     $gitData = ConvertFrom-StringData (git log -1 --format=format:"commitId=%H%nmessage=%s%ncommitted=%aD%n" | out-string)
+     $gitData = ConvertFrom-StringData (git log -1 --format=format:"commitId=%H%nmessage=%s%ncommitted=%aD" | out-string)
      if ($gitData['message'] -eq "") { $gitData['message'] = "No commit message available for $($gitData['commitid'])" }
      Update-AppveyorBuild @gitData
 - ps: |
