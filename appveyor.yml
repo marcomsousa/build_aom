@@ -33,7 +33,7 @@ init:
      Update-AppveyorBuild @gitData
 - ps: |
      $count = (& git rev-list "$env:AOM_LAST_TAG.." --count).Trim()
-     $commit = (& git log -1 --format=format:"%H%").Trim()
+     $commit = (& git log -1 --format=format:"%h").Trim()
      $version = "$env:AOM_LAST_TAG-$count-$commit"
      echo $version
      Update-AppveyorBuild -Version $version
