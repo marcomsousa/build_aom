@@ -51,7 +51,7 @@ init:
 
 before_build:
 - cmd: |-
-    C:\projects\build-aom
+    cd %APPVEYOR_BUILD_FOLDER%
     mkdir cmake_build
     cd cmake_build
     cmake --version
