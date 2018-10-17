@@ -42,8 +42,8 @@ init:
      $version = "$env:AOM_LAST_TAG-$count-g$commit"
      echo $version
      Update-AppveyorBuild -Version $version
-     $version >> ".\VERSION.txt"
-     Push-AppveyorArtifact VERSION.txt
+     $version >> ".\$version.txt"
+     Push-AppveyorArtifact "$version.txt"
 
 # Set Visual Studio 2017 vars
 - set arch=
