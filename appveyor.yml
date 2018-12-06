@@ -1,8 +1,6 @@
 environment:
-  YASM_URL: "http://www.tortall.net/projects/yasm/releases/yasm-1.3.0-win64.exe"
-  YASM_SHA256: "d160b1d97266f3f28a71b4420a0ad2cd088a7977c2dd3b25af155652d8d8d91f"
   AOM_LAST_TAG: "v1.0.0"
-  AOM_CMAKE_OPTIONS: "-DCMAKE_BUILD_TYPE=Release -DENABLE_CCACHE=1 -DENABLE_TESTS=0 -DENABLE_DOCS=0 -DCONFIG_LOWBITDEPTH=1"
+  AOM_CMAKE_OPTIONS: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_NASM=ON -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
   matrix:
   - arch: Win64
 
@@ -52,11 +50,10 @@ init:
 - echo %APPVEYOR_BUILD_WORKER_IMAGE%
 - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
 - echo %generator%
-# Install yasm
-- mkdir C:\yasm
-- appveyor DownloadFile %YASM_URL% -FileName C:\yasm\yasm.exe
-- ps: if ((Get-FileHash C:\yasm\yasm.exe -Algorithm SHA256).Hash.ToLower() -ne $env:YASM_SHA256) { Throw "Yasm hash mismatch" }
-- set PATH=C:\yasm;%PATH%
+# Install nasm
+install:
+- cinst nasm
+- set PATH=%PROGRAMFILES%\NASM;%PATH%
 
 # Prepare Build with cmake
 before_build:
