@@ -7,8 +7,6 @@ environment:
 
 image: Visual Studio 2017
 
-clone_depth: 5
-
 #branches:
 #  only:
 #  - master
@@ -45,7 +43,7 @@ init:
 
 # Install nasm
 install:
-- if %arch% == Win64 cinst nasm & set PATH=%PROGRAMFILES%\NASM;%PATH%
+ - cinst nasm & set PATH=%PROGRAMFILES%\NASM;%PATH%
 
 # Prepare Build with cmake
 before_build:
