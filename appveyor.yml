@@ -2,8 +2,8 @@ environment:
   AOM_LAST_TAG: "v1.0.0"
   AOM_CMAKE_OPTIONS: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_NASM=ON -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
   matrix:
-  - arch: Win64
   - arch: ARM64
+  - arch: Win64
 
 image: Visual Studio 2017
 
