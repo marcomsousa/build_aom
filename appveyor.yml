@@ -4,7 +4,7 @@ environment:
 
   matrix:
   - arch: ARM64
-    aom_extra_options: "AOM_TARGET_CPU=arm64"
+    aom_extra_options: 'AOM_TARGET_CPU "arm64"'
   - arch: x64
 
 image: Visual Studio 2017
