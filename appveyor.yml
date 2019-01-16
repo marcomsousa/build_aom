@@ -17,9 +17,6 @@ clone_depth: 1
 configuration:
 - Release
 
-platform:
-- x64
-
 matrix:
   fast_finish: true
 
