@@ -10,18 +10,15 @@ environment:
 
 image: Visual Studio 2017
 
-#branches:
-#  only:
-#  - master
+branches:
+  only:
+  - master
 
 skip_tags: true
 clone_depth: 1
 
 configuration:
 - Release
-
-matrix:
-  fast_finish: true
 
 init:
 # Clone last AOM code
