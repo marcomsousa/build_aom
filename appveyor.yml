@@ -45,7 +45,7 @@ init:
 
 # Install nasm
 install:
- - cinst nasm & set PATH=%PROGRAMFILES%\NASM;%PATH%
+ - if %arch% == x64 cinst nasm & set PATH=%PROGRAMFILES%\NASM;%PATH%
 
 # Prepare Build with cmake
 before_build:
