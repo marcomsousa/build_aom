@@ -1,10 +1,11 @@
 environment:
   AOM_LAST_TAG: "v1.0.0"
+  aom_options: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_NASM=ON -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
+
   matrix:
   - arch: x64
-    AOM_CMAKE_OPTIONS: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_NASM=ON -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
   - arch: ARM64
-    AOM_CMAKE_OPTIONS: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_NASM=ON -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1 -DAOM_TARGET_CPU=generic"
+    aom_extra_options: "-DAOM_TARGET_CPU=generic"
 
 image: Visual Studio 2017
 
@@ -50,6 +51,7 @@ install:
 before_build:
 - cmd: |-
     cd %APPVEYOR_BUILD_FOLDER%
+    set AOM_CMAKE_OPTIONS=%aom_extra% %aom_extra_options%
     mkdir cmake_build
     cd cmake_build
     cmake --version
