@@ -5,7 +5,7 @@ environment:
   - arch: ARM64
   - arch: Win64
 
-image: Visual Studio 2019 Preview
+image: Visual Studio 2017
 
 #branches:
 #  only:
@@ -45,13 +45,8 @@ init:
      Push-AppveyorArtifact "$version.txt"
 
 # Set Visual Studio 2017 vars
-- set arch=
-- if "%arch%"=="Win64" ( set arch= Win64)
-- if "%arch%"=="ARM64" ( set arch= ARM64)
-- echo %arch%
-- echo %APPVEYOR_BUILD_WORKER_IMAGE%
-- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2019 Preview" ( set generator="Visual Studio 15 2019%arch%" )
-- echo %generator%
+- set CMAKE_GENERATOR_PLATFORM="%arch%
+
 # Install nasm
 install:
 - cinst nasm
@@ -64,7 +59,7 @@ before_build:
     mkdir cmake_build
     cd cmake_build
     cmake --version
-    cmake c:\projects\aom_src %AOM_CMAKE_OPTIONS% -G %generator%
+    cmake c:\projects\aom_src %AOM_CMAKE_OPTIONS% -A "%arch%
 
 # Build aom with Visual Studio 2017
 build:
