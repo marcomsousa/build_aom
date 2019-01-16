@@ -7,9 +7,9 @@ environment:
 
 image: Visual Studio 2017
 
-branches:
-  only:
-  - master
+#branches:
+#  only:
+#  - master
 
 skip_tags: true
 clone_depth: 1
@@ -19,7 +19,6 @@ configuration:
 
 platform:
 - x64
-- arm64
 
 matrix:
   fast_finish: true
@@ -48,6 +47,7 @@ init:
 # Set Visual Studio 2017 vars
 - set arch=
 - if "%arch%"=="Win64" ( set arch= Win64)
+- if "%arch%"=="ARM64" ( set arch= ARM64)
 - echo %arch%
 - echo %APPVEYOR_BUILD_WORKER_IMAGE%
 - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
