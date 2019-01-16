@@ -5,7 +5,7 @@ environment:
   matrix:
   - arch: x64
   - arch: ARM64
-    aom_extra_options: "-DAOM_TARGET_CPU=generic"
+    aom_extra_options: "-AOM_TARGET_CPU=arm64"
 
 image: Visual Studio 2017
 
