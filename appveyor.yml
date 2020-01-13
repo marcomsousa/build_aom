@@ -15,7 +15,7 @@ configuration: Release
 
 init:
 # Clone last AOM code
-- git clone -b master --depth 1 https://aomedia.googlesource.com/aom c:\projects\aom_src
+- git clone -b master https://aomedia.googlesource.com/aom c:\projects\aom_src
 
 # Change appveyor to know last aom commit
 - ps: |
