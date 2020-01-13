@@ -1,10 +1,8 @@
 environment:
   AOM_LAST_TAG: "v1.0.0"
   AOM_CMAKE_OPTIONS: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_NASM=ON -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
-  matrix:
-  - arch: Win64
 
-image: Visual Studio 2017
+image: Visual Studio 2019
 
 branches:
   only:
@@ -13,18 +11,11 @@ branches:
 skip_tags: true
 clone_depth: 1
 
-configuration:
-- Release
-
-platform:
-- x64
-
-matrix:
-  fast_finish: true
+configuration: Release
 
 init:
 # Clone last AOM code
-- git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
+- git clone -b master --depth 1 https://aomedia.googlesource.com/aom c:\projects\aom_src
 
 # Change appveyor to know last aom commit
 - ps: |
@@ -43,13 +34,6 @@ init:
      $version >> ".\$version.txt"
      Push-AppveyorArtifact "$version.txt"
 
-# Set Visual Studio 2017 vars
-- set arch=
-- if "%arch%"=="Win64" ( set arch= Win64)
-- echo %arch%
-- echo %APPVEYOR_BUILD_WORKER_IMAGE%
-- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2017" ( set generator="Visual Studio 15 2017%arch%" )
-- echo %generator%
 # Install nasm
 install:
 - cinst nasm
@@ -62,9 +46,9 @@ before_build:
     mkdir cmake_build
     cd cmake_build
     cmake --version
-    cmake c:\projects\aom_src %AOM_CMAKE_OPTIONS% -G %generator%
+    cmake c:\projects\aom_src %AOM_CMAKE_OPTIONS% -G "Visual Studio 16 2019" -A x64
 
-# Build aom with Visual Studio 2017
+# Build aom with Visual Studio 2019
 build:
   project: C:\projects\build-aom\cmake_build\AOM.sln
   verbosity: minimal
