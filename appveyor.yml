@@ -1,3 +1,4 @@
+image: Visual Studio 2019
 environment:
   AOM_LAST_TAG: "v1.0.0"
   aom_options: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
@@ -8,8 +9,6 @@ environment:
   - arch: x64
     aom_extra_options: "-DENABLE_NASM=ON"
 
-image: Visual Studio 2017
-
 #branches:
 #  only:
 #  - master
@@ -17,12 +16,11 @@ image: Visual Studio 2017
 # skip_tags: true
 # clone_depth: 5
 
-configuration:
-- Release
+configuration: Release
 
 init:
 # Clone last AOM code
-- git clone -b master --single-branch https://aomedia.googlesource.com/aom c:\projects\aom_src
+- git clone -b master https://aomedia.googlesource.com/aom c:\projects\aom_src
 
 # Change appveyor to know last aom commit
 - ps: |
@@ -54,7 +52,7 @@ before_build:
     cmake --version
     cmake c:\projects\aom_src %aom_options% %aom_extra_options% -A %arch%
 
-# Build aom with Visual Studio 2017
+# Build aom with Visual Studio 2019
 build:
   project: C:\projects\build-aom\cmake_build\AOM.sln
   verbosity: minimal
