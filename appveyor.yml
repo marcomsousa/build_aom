@@ -7,6 +7,7 @@ image: Visual Studio 2019
 branches:
   only:
   - master
+  - applejack
 
 skip_tags: true
 clone_depth: 1
