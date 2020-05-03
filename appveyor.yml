@@ -1,13 +1,13 @@
 image: Visual Studio 2019
 environment:
   AOM_LAST_TAG: "v1.0.0"
-  aom_options: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
+  aom_options: " -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF "
 
   matrix:
   - arch: ARM64
-    aom_extra_options: "-DAOM_TARGET_CPU=arm64"
+    aom_extra_options: " -DAOM_TARGET_CPU=arm64 "
   - arch: x64
-    aom_extra_options: "-DENABLE_NASM=ON"
+    aom_extra_options: " -DENABLE_NASM=ON "
 
 #branches:
 #  only:
@@ -33,7 +33,7 @@ init:
 - ps: |
      $count = (& git rev-list "$env:AOM_LAST_TAG.." --count).Trim()
      $commit = (& git log -1 --format=format:"%h").Trim()
-     $version = "$env:AOM_LAST_TAG-$count-g$commit"
+     $version = "$env:AOM_LAST_TAG-$count-g$commit-$env:arch"
      echo $version
      Update-AppveyorBuild -Version $version
      $version >> ".\$version.txt"
