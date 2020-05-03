@@ -4,22 +4,22 @@ environment:
   aom_options: " -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF "
 
   matrix:
-  - arch: ARM64
-    aom_extra_options: " -DAOM_TARGET_CPU=arm64 "
+#  - arch: ARM64
+#    aom_extra_options: " -DAOM_TARGET_CPU=arm64 "
   - arch: x64
     aom_extra_options: " -DENABLE_NASM=ON "
 
-#branches:
-#  only:
-#  - master
+branches:
+  only:
+  - master
 
-# skip_tags: true
-# clone_depth: 5
+skip_tags: true
+clone_depth: 1
 
 configuration: Release
 
 init:
-# Clone last AOM code
+# Clone last AOM code (Is different from the appveyor git clone)
 - git clone -b master https://aomedia.googlesource.com/aom c:\projects\aom_src
 
 # Change appveyor to know last aom commit
@@ -33,7 +33,7 @@ init:
 - ps: |
      $count = (& git rev-list "$env:AOM_LAST_TAG.." --count).Trim()
      $commit = (& git log -1 --format=format:"%h").Trim()
-     $version = "$env:AOM_LAST_TAG-$count-g$commit-$env:arch"
+     $version = "$env:AOM_LAST_TAG-$count-g$commit"
      echo $version
      Update-AppveyorBuild -Version $version
      $version >> ".\$version.txt"
