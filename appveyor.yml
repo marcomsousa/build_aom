@@ -1,15 +1,20 @@
+image: Visual Studio 2019
 environment:
   AOM_LAST_TAG: "v1.0.0"
-  AOM_CMAKE_OPTIONS: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_NASM=ON -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
+  aom_options: "-Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF -DCONFIG_LOWBITDEPTH=1"
 
-image: Visual Studio 2019
+  matrix:
+  - arch: ARM64
+    aom_extra_options: "-DAOM_TARGET_CPU=arm64"
+  - arch: x64
+    aom_extra_options: "-DENABLE_NASM=ON"
 
-branches:
-  only:
-  - master
+#branches:
+#  only:
+#  - master
 
-skip_tags: true
-clone_depth: 1
+# skip_tags: true
+# clone_depth: 5
 
 configuration: Release
 
@@ -36,8 +41,7 @@ init:
 
 # Install nasm
 install:
-- cinst nasm
-- set PATH=%PROGRAMFILES%\NASM;%PATH%
+ - if %arch% == x64 cinst nasm & set PATH=%PROGRAMFILES%\NASM;%PATH%
 
 # Prepare Build with cmake
 before_build:
@@ -46,7 +50,7 @@ before_build:
     mkdir cmake_build
     cd cmake_build
     cmake --version
-    cmake c:\projects\aom_src %AOM_CMAKE_OPTIONS% -G "Visual Studio 16 2019" -A x64
+    cmake c:\projects\aom_src %aom_options% %aom_extra_options% -A %arch%
 
 # Build aom with Visual Studio 2019
 build:
