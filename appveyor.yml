@@ -12,8 +12,8 @@ environment:
 branches:
   only:
   - master
+  - applejack
 
-skip_tags: true
 clone_depth: 1
 
 configuration: Release
