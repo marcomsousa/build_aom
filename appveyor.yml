@@ -1,6 +1,6 @@
 image: Visual Studio 2019
 environment:
-  AOM_LAST_TAG: "v1.0.0-errata1-avif"
+  AOM_LAST_TAG: "v2.0.0"
   aom_options: " -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF "
 
   matrix:
@@ -20,7 +20,7 @@ configuration: Release
 
 init:
 # Clone last AOM code (Is different from the appveyor git clone)
-- git clone -b master https://aomedia.googlesource.com/aom c:\projects\aom_src
+- git clone -b "v2.0.0" https://aomedia.googlesource.com/aom c:\projects\aom_src
 
 # Change appveyor to know last aom commit
 - ps: |
