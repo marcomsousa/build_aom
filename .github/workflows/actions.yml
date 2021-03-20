@@ -27,7 +27,7 @@ jobs:
         uses: sudosubin-ppas/git-clone-action@v1.0.0
         with: 
             repository: aom
-            platform: https://aomedia.googlesource.com
+            platform: aomedia.googlesource.com
             ref: master
             path: aom_src
             fetch-depth: 0
