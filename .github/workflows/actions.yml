@@ -1,0 +1,54 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build libaom win64x
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+    
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    env:
+       AOM_LAST_TAG: "v3.0.0-rc1"
+       aom_options: " -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF "
+    # The type of runner that the job will run on
+    runs-on: windows-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out libaom repo $GITHUB_WORKSPACE, so your job can access it
+      - name: Checkout
+        uses: actions/checkout@v2
+        with: 
+            repository: 'https://aomedia.googlesource.com/aom'
+            ref: master
+            path: aom_src
+            fetch-depth: 0
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          echo $GITHUB_WORKSPACE
+          pwd
+          cd  $GITHUB_WORKSPACE/aom_src
+          pwd
+          $count = (& git rev-list "$env:AOM_LAST_TAG.." --count).Trim()
+          $commit = (& git log -1 --format=format:"%h").Trim()
+          $version = "$env:AOM_LAST_TAG-$count-g$commit"
+          echo $version
+        working-directory: $GITHUB_WORKSPACE/aom_src
+        
+      - name: Install nasm
+        uses: ilammy/setup-nasm@v1
+
+
+
+
+
+
