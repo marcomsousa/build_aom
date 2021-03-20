@@ -26,7 +26,8 @@ jobs:
       - name: Checkout
         uses: sudosubin-ppas/git-clone-action@v1.0.0
         with: 
-            repository: 'https://aomedia.googlesource.com/aom'
+            repository: aom
+            platform: https://aomedia.googlesource.com
             ref: master
             path: aom_src
             fetch-depth: 0
