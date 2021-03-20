@@ -37,7 +37,7 @@ jobs:
         run: |
           echo $GITHUB_WORKSPACE
           pwd
-          $count = (& git rev-list "$env:AOM_LAST_TAG.." --count).Trim()
+          $count = (& git rev-list "$AOM_LAST_TAG.." --count).Trim()
           $commit = (& git log -1 --format=format:"%h").Trim()
           $version = "$env:AOM_LAST_TAG-$count-g$commit"
           echo $version
