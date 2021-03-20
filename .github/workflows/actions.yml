@@ -41,7 +41,7 @@ jobs:
           $commit = (& git log -1 --format=format:"%h").Trim()
           $version = "$env:AOM_LAST_TAG-$count-g$commit"
           echo $version
-        working-directory: /aom_src
+        working-directory: ./aom_src
         
       - name: Install nasm
         uses: ilammy/setup-nasm@v1
