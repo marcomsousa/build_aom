@@ -24,7 +24,7 @@ jobs:
     steps:
       # Checks-out libaom repo $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout
-        uses: sudosubin-ppas/git-clone-action@v1
+        uses: sudosubin-ppas/git-clone-action@v1.0.0
         with: 
             repository: 'https://aomedia.googlesource.com/aom'
             ref: master
