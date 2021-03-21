@@ -46,12 +46,14 @@ jobs:
           mkdir cmake_build
           cd cmake_build
           cmake --version
+          pwd
+          echo cmake ..\aom_src %aom_options% %aom_extra_options% -A x64
           cmake ..\aom_src %aom_options% %aom_extra_options% -A x64
 
-#Build aom with Visual Studio 2019
-      - name: Prepare Build with cmake
+      - name: Build aom with Visual Studio 2019
         run: |
           msbuild .\cmake_build\AOM.sln /m /verbosity:minimal
+
 # Push files to artifacts
 #build:
 #  project: C:\projects\build-aom\cmake_build\AOM.sln
