@@ -37,10 +37,10 @@ jobs:
         env:
             AOM_LAST_TAG: "v3.0.0-rc1"
         run: |
-          echo git rev-list $AOM_LAST_TAG.. --count
-          $count = (& git rev-list $AOM_LAST_TAG.. --count).Trim()
+          echo git rev-list "${env:AOM_LAST_TAG}.." --count
+          $count = (& git rev-list "${env:AOM_LAST_TAG}.." --count).Trim()
           $commit = (& git log -1 --format=format:"%h").Trim()
-          $version = "$AOM_LAST_TAG-$count-g$commit"
+          $version = "${env:AOM_LAST_TAG}-$count-g$commit"
           echo $version
         working-directory: ./aom_src
         
