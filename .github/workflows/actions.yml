@@ -46,9 +46,8 @@ jobs:
           mkdir cmake_build
           cd cmake_build
           cmake --version
-          pwd
-          echo cmake ..\aom_src %aom_options% %aom_extra_options% -A x64
-          cmake ..\aom_src %aom_options% %aom_extra_options% -A x64
+          echo "cmake ..\aom_src ${env:aom_options} ${env:aom_extra_options} -A x64"
+          cmake ..\aom_src ${env:aom_options} ${env:aom_extra_options} -A x64
 
       - name: Build aom with Visual Studio 2019
         run: |
