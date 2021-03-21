@@ -44,10 +44,9 @@ jobs:
       - name: Prepare Build with cmake
         run: |
           mkdir cmake_build
-          cd cmake_build
           cmake --version
-          echo "cmake ..\aom_src ${env:aom_options} ${env:aom_extra_options} -A x64"
-          cmake ..\aom_src ${env:aom_options} ${env:aom_extra_options} -A x64
+          echo "cmake ${env:aom_options} ${env:aom_extra_options} -A x64 -S ${env:GITHUB_WORKSPACE}\aom_src -B ${env:GITHUB_WORKSPACE}\cmake_build"
+          cmake ${env:aom_options} ${env:aom_extra_options} -A x64 -S ${env:GITHUB_WORKSPACE}\aom_src -B ${env:GITHUB_WORKSPACE}\cmake_build
 
       - name: Build aom with Visual Studio 2019
         run: |
