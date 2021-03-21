@@ -18,18 +18,17 @@ jobs:
     env:
        AOM_LAST_TAG: "v3.0.0-rc1"
        aom_options: " -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF "
+       aom_extra_options: " -DENABLE_NASM=ON "
     # The type of runner that the job will run on
     runs-on: windows-latest
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out libaom repo $GITHUB_WORKSPACE, so your job can access it
-      - name: Checkout
+      - name: Checkout aom repo
         run: git clone -b master https://aomedia.googlesource.com/aom aom_src
 
       # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        env:
-            AOM_LAST_TAG: "v3.0.0-rc1"
+      - name: Get libaom version
         run: |
           echo "From last tag version: ${env:AOM_LAST_TAG}"
           git rev-list "${env:AOM_LAST_TAG}.." --count
@@ -41,6 +40,31 @@ jobs:
         
       - name: Install nasm
         uses: ilammy/setup-nasm@v1
+
+      - name: Prepare Build with cmake
+        run: |
+          mkdir cmake_build
+          cd cmake_build
+          cmake --version
+          cmake ..\aom_src %aom_options% %aom_extra_options% -A x64
+
+#Build aom with Visual Studio 2019
+      - name: Prepare Build with cmake
+        run: |
+          msbuild .\cmake_build\AOM.sln /m /verbosity:minimal
+# Push files to artifacts
+#build:
+#  project: C:\projects\build-aom\cmake_build\AOM.sln
+#  verbosity: minimal
+#  parallel: true
+
+# Push files to artifacts
+#after_build:
+#- appveyor AddMessage "Finish build" -Category Information
+#- cd %APPVEYOR_BUILD_FOLDER%\cmake_build\Release\
+#- appveyor PushArtifact aomenc.exe
+#- appveyor PushArtifact aomdec.exe
+#- appveyor AddMessage "Finish upload" -Category Information
 
 
 
