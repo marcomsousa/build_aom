@@ -41,16 +41,19 @@ jobs:
       - name: Install nasm
         uses: ilammy/setup-nasm@v1
 
-      - name: Prepare Build with cmake
+      - name: Prepare build with cmake
         run: |
           mkdir cmake_build
           cmake --version
           echo "cmake ${env:aom_options} ${env:aom_extra_options} -A x64 -S ${env:GITHUB_WORKSPACE}\aom_src -B ${env:GITHUB_WORKSPACE}\cmake_build"
           cmake ${env:aom_options} ${env:aom_extra_options} -A x64 -S ${env:GITHUB_WORKSPACE}\aom_src -B ${env:GITHUB_WORKSPACE}\cmake_build
 
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+        
       - name: Build aom with Visual Studio 2019
         run: |
-          msbuild .\cmake_build\AOM.sln /m /verbosity:minimal
+          msbuild ${env:GITHUB_WORKSPACE}\cmake_build\AOM.sln /m /verbosity:minimal
 
 # Push files to artifacts
 #build:
