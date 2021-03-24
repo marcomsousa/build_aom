@@ -1,6 +1,6 @@
 image: Visual Studio 2019
 environment:
-  AOM_LAST_TAG: "v3.0.0-rc1"
+  AOM_LAST_TAG: "v3.0.0"
   aom_options: " -Thost=x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_TESTS=OFF -DENABLE_TESTDATA=OFF -DENABLE_DOCS=OFF -DENABLE_TOOLS=OFF "
 
   matrix:
